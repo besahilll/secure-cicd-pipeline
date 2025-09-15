@@ -21,3 +21,6 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install -r app/requirements.txt
+      
+      - name: Run Gitleaks (Secrets Scan)
+        uses: gitleaks/gitleaks-action@v2
