@@ -21,60 +21,23 @@ The project focuses on **preventing high-risk vulnerabilities early in the SDLC*
 
 ## 🏗️ Architecture (Simplified)
 
-┌──────────────────┐
-│   Developer PR   │
-│ (Code Changes)   │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────────────────────┐
-│   PR Security Pipeline (CI)       │
-│   GitHub Actions                  │
-│                                  │
-│  ┌────────────────────────────┐  │
-│  │ Secrets Scan (Gitleaks)     │  │
-│  │ - Detect leaked secrets    │  │
-│  └────────────┬───────────────┘  │
-│               │                  │
-│  ┌────────────▼───────────────┐  │
-│  │ Dependency Scan (Snyk)      │  │
-│  │ - CVEs in dependencies     │  │
-│  └────────────┬───────────────┘  │
-│               │                  │
-│  ┌────────────▼───────────────┐  │
-│  │ IaC Scan (Checkov)          │  │
-│  │ - Insecure infra configs   │  │
-│  └────────────┬───────────────┘  │
-│               │                  │
-│  ❌ Block merge if HIGH risk     │
-└────────┬─────────────────────────┘
-         │
-         ▼
-┌──────────────────┐
-│   Merge to main  │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────────────────────┐
-│ Deployment Security Pipeline      │
-│ GitHub Actions                    │
-│                                  │
-│  ┌────────────────────────────┐  │
-│  │ Start Application Services  │  │
-│  │ (Auth + Orders)             │  │
-│  └────────────┬───────────────┘  │
-│               │                  │
-│  ┌────────────▼───────────────┐  │
-│  │ DAST Scan (OWASP ZAP)       │  │
-│  │ - Runtime vulnerabilities  │  │
-│  └────────────┬───────────────┘  │
-│               │                  │
-│  ┌────────────▼───────────────┐  │
-│  │ Security Reports Generated  │  │
-│  │ (Artifacts)                │  │
-│  └────────────────────────────┘  │
-└──────────────────────────────────┘
-
+Developer PR
+|
+v
+PR Security Pipeline (GitHub Actions)
+├── Secrets Scan (Gitleaks)
+├── Dependency Scan (Snyk)
+├── IaC Scan (Checkov)
+└── ❌ Block high-risk commits
+|
+v
+Merge to main
+|
+v
+Deployment Security Pipeline
+├── Start application services
+├── DAST Scan (OWASP ZAP)
+└── Generate security reports
 
 ---
 
