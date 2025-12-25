@@ -1,0 +1,36 @@
+name: PR Security Pipeline
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  pr-security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies (Auth Service)
+        run: |
+          pip install -r services/auth-service/requirements.txt
+
+      - name: Install Dependencies (Orders Service)
+        run: |
+          pip install -r services/orders-service/requirements.txt
+
+      - name: Run Gitleaks (Secrets Scan)
+        uses: gitleaks/gitleaks-action@v2
+
+      - name: Run Snyk (Dependency Scan)
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
