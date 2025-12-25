@@ -34,3 +34,9 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test
+
+      - name: Run Checkov (IaC Scan)
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: infra/terraform
+
