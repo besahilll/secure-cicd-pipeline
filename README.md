@@ -21,25 +21,26 @@ The project focuses on **preventing high-risk vulnerabilities early in the SDLC*
 
 ## 🏗️ Architecture (Simplified)
 
-Developer PR
-|
-v
-PR Security Pipeline (GitHub Actions)
-├── Secrets Scan (Gitleaks)
-├── Dependency Scan (Snyk)
-├── IaC Scan (Checkov)
-└── ❌ Block high-risk commits
-|
-v
-Merge to main
-|
-v
-Deployment Security Pipeline
-├── Start application services
-├── DAST Scan (OWASP ZAP)
-└── Generate security reports
+```mermaid
+flowchart TD
 
----
+    A[Developer Pull Request] --> B[PR Security Pipeline]
+
+    B --> B1[Gitleaks - Secrets Scan]
+    B --> B2[Snyk - Dependency Scan]
+    B --> B3[Checkov - IaC Scan]
+
+    B1 --> C{High Risk Found?}
+    B2 --> C
+    B3 --> C
+
+    C -- Yes --> D[Block PR]
+    C -- No --> E[Merge to Main]
+
+    E --> F[Deployment Security Pipeline]
+    F --> G[Start Application Services]
+    G --> H[OWASP ZAP Scan]
+    H --> I[Security Report Generated]
 
 ## 🧩 Application Design
 

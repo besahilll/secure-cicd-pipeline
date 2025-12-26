@@ -3,11 +3,11 @@ name: Deployment Security Scan
 on:
   push:
     branches: ["main"]
-
+    paths-ignore: 
+      - README.md
 jobs:
   dast:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
