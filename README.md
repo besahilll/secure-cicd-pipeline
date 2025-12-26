@@ -19,12 +19,10 @@ The project focuses on **preventing high-risk vulnerabilities early in the SDLC*
 
 ---
 
-## 🏗️ Architecture (Simplified)
 
 ## 🧩 Application Architecture
 
 ![CI/CD Security Architecture](./docs/Architect.png)
-
 
 ## 🧩 Application Design
 
